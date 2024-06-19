@@ -27,7 +27,7 @@ static DEVICE: Lazy<Mutex<VirtualDevice>> = Lazy::new(|| {
             .unwrap()
             .name("extest fake device")
             .with_keys(&AttributeSet::from_iter(
-                [Key::BTN_LEFT, Key::BTN_RIGHT, Key::BTN_MIDDLE]
+                [Key::BTN_LEFT, Key::BTN_RIGHT, Key::BTN_MIDDLE, Key::KEY_RIGHTMETA]
                     .into_iter()
                     .chain(KEYS.iter().copied()),
             ))
@@ -68,6 +68,7 @@ pub extern "C" fn XTestFakeKeyEvent(
     // Seems that X11 keycodes are just 8 + linux keycode - https://wiki.archlinux.org/title/Keyboard_input#Identifying_keycodes
     let key = match keycode {
         156 => Key::KEY_TAB, // I have no idea where this comes from
+        206 => Key::KEY_RIGHTMETA,
         keycode => Key::new((keycode - 8) as u16),
     };
 
